@@ -15,6 +15,6 @@ spec:
   path: ./apps/staging
   prune: true
   decryption:
-    povider: sops
+    provider: sops
     secretRef:
       name: sops-age
