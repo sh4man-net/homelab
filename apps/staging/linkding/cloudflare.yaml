@@ -15,16 +15,15 @@ spec:
       containers:
         - name: cloudflared
           image: cloudflare/cloudflared:latest
-          command: ["sleep", "50000"]
-          #args:
-          #- tunnel
+          args:
+            - tunnel
 
-          # Points cloudflared to the config file, which configures what
-          # cloudflared will actually do. This file is created by a ConfigMap
-          # below.
-          #- --config
-          #- /etc/cloudflared/config/config.yaml
-          #- run
+            # Points cloudflared to the config file, which configures what
+            # cloudflared will actually do. This file is created by a ConfigMap
+            # below.
+            - --config
+            - /etc/cloudflared/config/config.yaml
+            - run
           livenessProbe:
             httpGet:
               # Cloudflared has a /ready endpoint which returns 200 if and only if
