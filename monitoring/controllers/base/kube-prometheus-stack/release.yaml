@@ -31,3 +31,12 @@ spec:
   values:
     grafana:
       adminPassword: sh4man
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+          - grafana.zaujec-nemeth.net
+        # tls:
+        #   - secretName: grafana-tls-secret
+        #     hosts:
+        # - grafana.zaujec-nemeth.net
