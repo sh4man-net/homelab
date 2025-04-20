@@ -36,7 +36,7 @@ spec:
         ingressClassName: traefik
         hosts:
           - grafana.zaujec-nemeth.net
-        # tls:
-        #   - secretName: grafana-tls-secret
-        #     hosts:
-        # - grafana.zaujec-nemeth.net
+        tls:
+          - secretName: grafana-tls-secret
+            hosts:
+              - grafana.zaujec-nemeth.net
