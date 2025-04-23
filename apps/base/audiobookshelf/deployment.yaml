@@ -36,10 +36,10 @@ spec:
       volumes:
         - name: audiobookshelf-audiobooks
           persistentVolumeClaim:
-            claimName: linkding-audiobooks-pvc
+            claimName: audiobookshelf-audiobooks-pvc
         - name: audiobookshelf-config
           persistentVolumeClaim:
-            claimName: linkding-config-pvc
+            claimName: audiobookshelf-config-pvc
         - name: audiobookshelf-metadata
           persistentVolumeClaim:
-            claimName: linkding-metadata-pvc
+            claimName: audiobookshelf-metadata-pvc
