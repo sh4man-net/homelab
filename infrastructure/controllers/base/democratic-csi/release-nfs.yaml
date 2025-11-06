@@ -99,9 +99,15 @@ spec:
 
     node:
       driver:
-        image: docker.io/democraticcsi/democratic-csi:latest
+        image:
+          registry: docker.io
+          repository: democraticcsi/democratic-csi
+          tag: latest
       driverRegistrar:
-        image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+        image:
+          registry: registry.k8s.io
+          repository: sig-storage/csi-node-driver-registrar
+          tag: v2.12.0
       hostPID: true
       tolerations:
       - effect: NoSchedule
