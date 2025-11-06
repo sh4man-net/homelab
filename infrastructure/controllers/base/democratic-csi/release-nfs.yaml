@@ -14,6 +14,11 @@ spec:
         name: democratic-csi
         namespace: democratic-csi
       interval: 12h
+  valuesFrom:
+  - kind: Secret
+    name: truenas-api-key
+    valuesKey: apiKey
+    targetPath: driver.config.httpConnection.apiKey
   values:
     csiDriver:
       name: "org.democratic-csi.nfs"
@@ -67,7 +72,6 @@ spec:
           protocol: http  # Change to https if SSL configured
           host: 192.168.178.59  # YOUR TRUENAS IP
           port: 80  # Change to 443 for https
-          apiKey: truenas-api-key
           allowInsecure: true
         zfs:
           datasetParentName: treasure-chest/k8s  # CHANGE THIS
