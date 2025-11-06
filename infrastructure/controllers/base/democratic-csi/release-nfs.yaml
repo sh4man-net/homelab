@@ -42,26 +42,6 @@ spec:
         node-stage-secret:
         node-publish-secret:
         controller-expand-secret:
-
-    - name: truenas-nfs-media
-      defaultClass: false
-      reclaimPolicy: Retain
-      volumeBindingMode: Immediate
-      allowVolumeExpansion: true
-      parameters:
-        fsType: nfs
-      mountOptions:
-      - nfsvers=4
-      - nconnect=8
-      - hard
-      - noatime
-      secrets:
-        provisioner-secret:
-        controller-publish-secret:
-        node-stage-secret:
-        node-publish-secret:
-        controller-expand-secret:
-
     volumeSnapshotClasses: []
 
     driver:
@@ -74,7 +54,7 @@ spec:
           port: 80  # Change to 443 for https
           allowInsecure: true
         zfs:
-          datasetParentName: treasure-chest/k8s  # CHANGE THIS
+          datasetParentName: treasure-chest/k8s/volumes  # CHANGE THIS
           detachedSnapshotsDatasetParentName: "treasure-chest/k8s/snapshots"
           datasetEnableQuotas: true
           datasetEnableReservation: false
