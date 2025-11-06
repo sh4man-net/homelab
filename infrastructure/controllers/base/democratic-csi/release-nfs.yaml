@@ -82,7 +82,7 @@ spec:
           value: "DEBUG"
         image:
           registry: docker.io/democraticcsi/democratic-csi
-          tag: latest
+          tag: next
           pullPolicy: IfNotPresent
       externalProvisioner:
         enabled: true
