@@ -66,8 +66,8 @@ spec:
           shareAlldirs: false
           shareAllowedHosts: []
           shareAllowedNetworks: []
-          shareMaprootUser: root
-          shareMaprootGroup: root
+          shareMaprootUser: truenas_admin
+          shareMaprootGroup: truenas_admin
           shareMapallUser: ""
           shareMapallGroup: ""
 
