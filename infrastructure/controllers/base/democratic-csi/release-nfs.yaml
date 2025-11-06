@@ -52,6 +52,7 @@ spec:
           protocol: http  # Change to https if SSL configured
           host: 192.168.178.59  # YOUR TRUENAS IP
           port: 80  # Change to 443 for https
+          apiVersion: 2 
           allowInsecure: true
         zfs:
           datasetParentName: treasure-chest/k8s/volumes  # CHANGE THIS
