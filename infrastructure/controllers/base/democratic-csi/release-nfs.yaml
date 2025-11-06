@@ -91,23 +91,20 @@ spec:
       enabled: true
       driver:
         image:
-          registry: docker.io
-          repository: democraticcsi/democratic-csi
+          registry: docker.io/democraticcsi/democratic-csi
           tag: latest
           pullPolicy: IfNotPresent
       externalProvisioner:
         enabled: true
         image:
-          registry: registry.k8s.io
-          repository: sig-storage/csi-provisioner
-          tag: v5.1.0
+          registry: registry.k8s.io/sig-storage/csi-provisioner
+          tag: v3.6.0
           pullPolicy: IfNotPresent
       externalResizer:
         enabled: true
         image:
-          registry: registry.k8s.io
-          repository: sig-storage/csi-resizer
-          tag: v1.12.0
+          registry: registry.k8s.io/sig-storage/csi-resizer
+          tag: v1.9.0
           pullPolicy: IfNotPresent
       externalSnapshotter:
         enabled: false
@@ -118,16 +115,14 @@ spec:
       enabled: true
       driver:
         image:
-          registry: docker.io
-          repository: democraticcsi/democratic-csi
+          registry: docker.io/democraticcsi/democratic-csi
           tag: latest
           pullPolicy: IfNotPresent
       driverRegistrar:
         enabled: true
         image:
-          registry: registry.k8s.io
-          repository: sig-storage/csi-node-driver-registrar
-          tag: v2.12.0
+          registry: registry.k8s.io/sig-storage/csi-node-driver-registrar
+          tag: v2.9.0
           pullPolicy: IfNotPresent
       hostPID: true
       tolerations:
