@@ -75,10 +75,10 @@ spec:
           allowInsecure: true
         zfs:
           datasetParentName: treasure-chest/k8s  # CHANGE THIS
-          detachedSnapshotsDatasetParentName: "{datasetParentName}/snapshots"
+          detachedSnapshotsDatasetParentName: "treasure-chest/k8s/snapshots"
           datasetEnableQuotas: true
           datasetEnableReservation: false
-          datasetPermissionsMode: "0770"
+          datasetPermissionsMode: "0777"
           datasetPermissionsUser: 0
           datasetPermissionsGroup: 0
         nfs:
@@ -94,6 +94,12 @@ spec:
     controller:
       enabled: true
       driver:
+        logLevel: debug  # Add this
+        extraEnv:
+        - name: GRPC_TRACE
+          value: "all"
+        - name: GRPC_VERBOSITY
+          value: "DEBUG"
         image:
           registry: docker.io/democraticcsi/democratic-csi
           tag: latest
