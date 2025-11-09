@@ -108,8 +108,8 @@ spec:
           allowInsecure: true
           apiVersion: 2
         zfs:
-          datasetParentName: treasure-chest/nfs/v
-          detachedSnapshotsDatasetParentName: treasure-chest/nfs/s
+          datasetParentName: treasure-chest/k8s/nfs/v
+          detachedSnapshotsDatasetParentName: treasure-chest/k8s/nfs/s
           datasetEnableQuotas: true
           datasetEnableReservation: false
           datasetPermissionsMode: "0777"
