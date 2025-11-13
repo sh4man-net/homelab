@@ -3,4 +3,5 @@ kind: Namespace
 metadata:
   name: democratic-csi
   labels:
-    pod-security.kubernetes.io/enforce: privileged
+    # talos doesn't allowe privileged as default, it stops the ds from starting
+    pod-security.kubernetes.io/enforce: privileged 
