@@ -30,4 +30,28 @@ spec:
           kind: PrometheusRule
   values:
     grafana:
+      persistence:
+        enabled: true
+        storageClassName: nfs
+        size: 10Gi
       adminPassword: sh4man
+    alertmanager:
+      alertmanagerSpec:
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: nfs
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 10Gi
+    prometheus:
+      prometheusSpec:
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: nfs
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 50Gi
