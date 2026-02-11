@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booklore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booklore
+  template:
+    metadata:
+      labels:
+        app: booklore
+    spec:
+      initContainers:
+      - name: wait-for-mariadb
+        image: busybox:1.36
+        command:
+        - sh
+        - -c
+        - |
+          until nc -z mariadb 3306; do
+            echo "Waiting for MariaDB..."
+            sleep 2
+          done
+      containers:
+      - name: booklore
+        image: booklore/booklore-app:1.18.5
+        env:
+        - name: USER_ID
+          value: "1000"
+        - name: GROUP_ID
+          value: "1000"
+        - name: TZ
+          value: "Europe/Berlin"
+        - name: DATABASE_URL
+          value: "jdbc:mariadb://mariadb:3306/booklore"
+        - name: DATABASE_USERNAME
+          value: "booklore"
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: booklore-db-secret
+              key: db-password
+        - name: BOOKLORE_PORT
+          value: "6060"
+        ports:
+        - containerPort: 6060
+          name: http
+        volumeMounts:
+        - name: data
+          mountPath: /app/data
+        - name: books
+          mountPath: /books
+        - name: bookdrop
+          mountPath: /bookdrop
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 6060
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 6060
+          initialDelaySeconds: 30
+          periodSeconds: 5
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: booklore-data-pvc
+      - name: books
+        persistentVolumeClaim:
+          claimName: booklore-books-pvc
+      - name: bookdrop
+        persistentVolumeClaim:
+          claimName: booklore-bookdrop-pvc

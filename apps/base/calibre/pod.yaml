@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: calibre-upload
+  namespace: calibre
+spec:
+  containers:
+  - name: uploader
+    image: alpine:latest
+    command: ["/bin/sh", "-c", "sleep 3600"]
+    volumeMounts:
+    - name: books
+      mountPath: /books
+  volumes:
+  - name: books
+    persistentVolumeClaim:
+      claimName: calibre-web-books
