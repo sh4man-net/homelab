@@ -25,7 +25,7 @@ spec:
           done
       containers:
       - name: booklore
-        image: booklore/booklore-app:1.18.5
+        image: booklore/booklore-app:v1.18.5
         env:
         - name: USER_ID
           value: "1000"
