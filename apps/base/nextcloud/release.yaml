@@ -1,0 +1,138 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: nextcloud
+      version: "5.5.x"  # Check for latest version
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud
+        namespace: nextcloud
+      interval: 12h
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    image:
+      flavor: fpm-alpine
+      
+    # Use existing secret
+    existingSecret:
+      enabled: true
+      secretName: nextcloud-secrets
+      usernameKey: nextcloud-username
+      passwordKey: nextcloud-password
+    
+    nextcloud:
+      host: nextcloud.your-domain.com  # Change this
+      # Or for Tailscale (we'll expose this later):
+      # host: nextcloud  
+      
+      extraEnv:
+        - name: OVERWRITEPROTOCOL
+          value: "https"
+      
+      # PHP settings for better performance
+      phpConfigs:
+        uploadLimit.ini: |
+          upload_max_filesize = 16G
+          post_max_size = 16G
+          max_input_time = 3600
+          max_execution_time = 3600
+        www.conf: |
+          pm = dynamic
+          pm.max_children = 120
+          pm.start_servers = 12
+          pm.min_spare_servers = 6
+          pm.max_spare_servers = 18
+      
+      # Default apps to install
+      defaultConfigs:
+        .htaccess: true
+        redis.config.php: true
+        apache-pretty-urls.config.php: true
+        apcu.config.php: true
+        apps.config.php: true
+        autoconfig.php: true
+        smtp.config.php: true
+      
+      configs:
+        proxy.config.php: |-
+          <?php
+          $CONFIG = array (
+            'trusted_proxies' => array(
+              0 => '127.0.0.1',
+              1 => '10.0.0.0/8',
+            ),
+            'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+          );
+    
+    # Use existing PVC for data
+    persistence:
+      enabled: true
+      existingClaim: nextcloud-data
+      accessMode: ReadWriteMany
+    
+    # Internal PostgreSQL database
+    internalDatabase:
+      enabled: false
+    
+    externalDatabase:
+      enabled: true
+      type: postgresql
+      host: nextcloud-postgresql
+      database: nextcloud
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-secrets
+        usernameKey: nextcloud-username
+        passwordKey: postgresql-password
+    
+    # PostgreSQL subchart
+    postgresql:
+      enabled: true
+      auth:
+        username: nextcloud
+        database: nextcloud
+        existingSecret: nextcloud-secrets
+        secretKeys:
+          adminPasswordKey: postgresql-password
+          userPasswordKey: postgresql-password
+      primary:
+        persistence:
+          enabled: true
+          existingClaim: nextcloud-postgres
+    
+    # Redis for caching
+    redis:
+      enabled: true
+      auth:
+        enabled: false
+      master:
+        persistence:
+          enabled: false
+    
+    # Nginx for serving static files (with FPM)
+    nginx:
+      enabled: true
+      
+    # Resources
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        memory: 2Gi
+    
+    # Cronjob for background tasks
+    cronjob:
+      enabled: true
+      schedule: "*/5 * * * *"
