@@ -3,10 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: nextcloud-data
   namespace: nextcloud
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "nfs"
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: nfs-client  # or whatever your NFS storage class is
   resources:
     requests:
       storage: 100Gi  # Adjust based on your needs
@@ -16,10 +17,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: nextcloud-postgres
   namespace: nextcloud
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "nfs"
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: nfs-client
   resources:
     requests:
       storage: 10Gi
