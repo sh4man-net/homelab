@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: tailscale
-        namespace: flux-system
+        namespace: tailscale
       interval: 12h
   install:
     crds: CreateReplace
