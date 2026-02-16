@@ -43,10 +43,10 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       
       # ADD: Security context for the container
-      securityContext:
-        runAsUser: 33  # www-data user
-        runAsGroup: 33
-        runAsNonRoot: true
+      # securityContext:
+      #   runAsUser: 33  # www-data user
+      #   runAsGroup: 33
+      #   runAsNonRoot: true
     
     # Enable persistence with your PVC
     persistence:
