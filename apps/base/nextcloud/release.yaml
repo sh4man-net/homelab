@@ -36,6 +36,17 @@ spec:
       extraEnv:
         - name: OVERWRITEPROTOCOL
           value: "https"
+      
+      # ADD: Security context for the pod
+      podSecurityContext:
+        fsGroup: 33  # www-data group
+        fsGroupChangePolicy: "OnRootMismatch"
+      
+      # ADD: Security context for the container
+      securityContext:
+        runAsUser: 33  # www-data user
+        runAsGroup: 33
+        runAsNonRoot: true
     
     # Enable persistence with your PVC
     persistence:
