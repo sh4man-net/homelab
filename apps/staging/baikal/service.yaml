@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: baikal
+  namespace: baikal
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "baikal"
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app: baikal
+  ports:
+    - port: 443
+      targetPort: 80
